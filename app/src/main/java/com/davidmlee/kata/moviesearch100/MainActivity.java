@@ -1,8 +1,8 @@
 package com.davidmlee.kata.moviesearch100;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,16 +23,21 @@ import com.davidmlee.kata.moviesearch100.core.ScreenMap;
 import com.davidmlee.kata.moviesearch100.util.Util;
 
 public class MainActivity extends AppCompatActivity {
-    MainController mainController;
     private EditText search_text;
     RecyclerView recList;
     FilmListAdapter filmListAdapter;
 
     @Override
+    @SuppressWarnings({"deprecation", "NewApi"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.setOverflowIcon(getDrawable(R.drawable.ic_more_vert_black));
+        } else {
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more_vert_black));
+        }
         setSupportActionBar(toolbar);
         MainController.setMainActivity(this);
 
@@ -79,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 filmListAdapter.notifyDataSetChanged();
                 recList.invalidate();
                 Activity currentlyResumed = ScreenMap.getCurrentResumedActivity();
-                if (currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
+                if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
                     Util.hideSoftKeyboard(MainActivity.this);
                     Snackbar.make(recList,
                             MyApp.getStrRes(R.string.label_movie_list_refreshed)
