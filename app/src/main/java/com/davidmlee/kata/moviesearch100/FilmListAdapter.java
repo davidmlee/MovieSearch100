@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.davidmlee.kata.moviesearch100.controller.MainController;
 import com.davidmlee.kata.moviesearch100.controller.MovieDetailController;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
 import com.davidmlee.kata.moviesearch100.models.FilmEntity;
@@ -54,6 +55,10 @@ class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolde
             holder.tvDate.setText(releaseDate);
         }
         holder.tvOverview.setText(fe.getOverview());
+        // Should we fetch the next page?
+        if (position == filmEntityList.size() - 1) {
+            MainController.searchMoviesNextPage();
+        }
     }
 
     @Override

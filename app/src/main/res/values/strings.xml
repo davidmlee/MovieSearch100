@@ -6,7 +6,8 @@
     <string name="label_search_text_empty">Search text is empty</string>
     <string name="label_release_date">Released: </string>
     <string name="label_not_available">(Not available)</string>
-    <string name="label_movie_list_refreshed">Movie list refreshed </string>
+    <string name="label_movie_list_reset">Movie list reset</string>
+    <string name="label_movie_list_appended">Movie list appended</string>
 
     <string name="label_title">Title</string>
     <string name="label_overview">Overview</string>

@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         MainController.setMainActivity(null);
     }
 
-    public void refreshMovieList() {
+    public void resetMovieList() {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -89,8 +89,26 @@ public class MainActivity extends AppCompatActivity {
                 if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
                     Util.hideSoftKeyboard(MainActivity.this);
                     Snackbar.make(recList,
-                            MyApp.getStrRes(R.string.label_movie_list_refreshed)
-                            , Snackbar.LENGTH_LONG)
+                            MyApp.getStrRes(R.string.label_movie_list_reset)
+                            , Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
+                }
+            }
+        });
+    }
+
+    public void appendToMovieList() {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                filmListAdapter.notifyDataSetChanged();
+                recList.invalidate();
+                Activity currentlyResumed = ScreenMap.getCurrentResumedActivity();
+                if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
+                    Util.hideSoftKeyboard(MainActivity.this);
+                    Snackbar.make(recList,
+                            MyApp.getStrRes(R.string.label_movie_list_appended)
+                            , Snackbar.LENGTH_SHORT)
                             .setAction("Action", null).show();
                 }
             }
