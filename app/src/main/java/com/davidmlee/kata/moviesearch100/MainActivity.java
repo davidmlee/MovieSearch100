@@ -95,6 +95,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void displayQueryError(final String errorString) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Activity currentlyResumed = ScreenMap.getCurrentResumedActivity();
+                if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
+                    Util.hideSoftKeyboard(MainActivity.this);
+                    Toast.makeText(MainActivity.this, errorString, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     @Override
     public void onWindowFocusChanged (boolean hasFocus) {
         if (hasFocus) {

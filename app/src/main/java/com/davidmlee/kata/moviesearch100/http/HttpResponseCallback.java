@@ -3,22 +3,23 @@
  */
 package com.davidmlee.kata.moviesearch100.http;
 
-import com.squareup.okhttp.Response;
+import okhttp3.Response;
 
 /**
  * HttpResponseCallback
  */
 public interface HttpResponseCallback {
     /**
-     * @param response - http Response object
+     * @param httpResponse - http Response object
      * @param responseBodyString - (Json) response
      */
-    void onSuccess(Response response, String responseBodyString);
+    void onSuccess(Response httpResponse, String responseBodyString);
 
     /**
      * (non-Javadoc)
      *
+     * @param httpResponse - http Response object
      * @param ex The Exception
      */
-    void onError(Exception ex);
+    void onError(Response httpResponse, Exception ex);
 }

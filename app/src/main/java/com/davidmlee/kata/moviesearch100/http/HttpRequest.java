@@ -4,24 +4,28 @@
  */
 package com.davidmlee.kata.moviesearch100.http;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import java.util.concurrent.TimeUnit;
 
-import java.io.IOException;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * class HttpRequest
  */
 public class HttpRequest {
 	synchronized static public void sendResquest(String url, HttpResponseCallback httpResponseCallback) {
-		OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
 		Call call = client.newCall(request);
-		Response response;
+		Response response = null;
 		String responseBodyStr;
 		try {
 			response = call.execute();
@@ -29,11 +33,11 @@ public class HttpRequest {
                 responseBodyStr = response.body().string();
 				httpResponseCallback.onSuccess(response, responseBodyStr);
 			} else {
-				httpResponseCallback.onError(null);
+				httpResponseCallback.onError(response, null);
 			}
         } catch (Exception ex) {
             ex.printStackTrace();
-            httpResponseCallback.onError(ex);
+            httpResponseCallback.onError(response, ex);
 		}
 	}
 }

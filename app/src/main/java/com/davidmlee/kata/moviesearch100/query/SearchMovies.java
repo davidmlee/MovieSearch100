@@ -3,7 +3,7 @@ package com.davidmlee.kata.moviesearch100.query;
 import com.davidmlee.kata.moviesearch100.core.Contants;
 import com.davidmlee.kata.moviesearch100.http.HttpRequest;
 import com.davidmlee.kata.moviesearch100.http.HttpResponseCallback;
-import com.squareup.okhttp.Response;
+import okhttp3.Response;
 
 import static com.davidmlee.kata.moviesearch100.core.Contants.BASE_URL;
 
@@ -27,11 +27,11 @@ public class SearchMovies {
             }
 
             @Override
-            public void onError(Exception ex) {
+            public void onError(Response response, Exception ex) {
                 if (ex != null) {
                     ex.printStackTrace();
                 }
-                queryResponseCallback.onError(ex);
+                queryResponseCallback.onError(response, ex);
             }
         });
     }
@@ -52,11 +52,11 @@ public class SearchMovies {
             }
 
             @Override
-            public void onError(Exception ex) {
+            public void onError(Response response, Exception ex) {
                 if (ex != null) {
                     ex.printStackTrace();
                 }
-                queryResponseCallback.onError(ex);
+                queryResponseCallback.onError(response, ex);
             }
         });
     }

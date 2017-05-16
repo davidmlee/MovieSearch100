@@ -1,13 +1,17 @@
 package com.davidmlee.kata.moviesearch100.controller;
 
+import android.app.Activity;
 import android.content.Intent;
 
+import com.davidmlee.kata.moviesearch100.MainActivity;
 import com.davidmlee.kata.moviesearch100.MovieDetailActivity;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
+import com.davidmlee.kata.moviesearch100.core.ScreenMap;
 import com.davidmlee.kata.moviesearch100.models.FilmDetailEntity;
 import com.davidmlee.kata.moviesearch100.query.QueryResponseCallback;
 import com.davidmlee.kata.moviesearch100.query.SearchMovies;
 import com.davidmlee.kata.moviesearch100.util.Util;
+import okhttp3.Response;
 
 import org.json.JSONObject;
 
@@ -55,8 +59,20 @@ public class MovieDetailController {
                     }
 
                     @Override
-                    public void onError(Exception ex) {
-
+                    public void onError(Response httpResponse, Exception ex) {
+                        String errorString = "";
+                        if (httpResponse != null) {
+                            errorString = httpResponse.toString();
+                        } else if (ex != null) {
+                            errorString = ex.getLocalizedMessage();
+                        }
+                        if (MainController.getMainActivity() != null && ! MyApp.getIsAppBackground()) {
+                            Activity myMainActivity = ScreenMap.getCurrentResumedActivity();
+                            if (myMainActivity != null &&
+                                    myMainActivity.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
+                                ((MainActivity)myMainActivity).displayQueryError(errorString);
+                            }
+                        }
                     }
                 });
             }

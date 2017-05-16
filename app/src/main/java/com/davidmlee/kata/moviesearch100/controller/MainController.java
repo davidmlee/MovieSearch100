@@ -9,6 +9,7 @@ import com.davidmlee.kata.moviesearch100.models.FilmEntity;
 import com.davidmlee.kata.moviesearch100.query.QueryResponseCallback;
 import com.davidmlee.kata.moviesearch100.query.SearchMovies;
 import com.davidmlee.kata.moviesearch100.util.Util;
+import okhttp3.Response;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -91,8 +92,20 @@ public class MainController {
                     }
 
                     @Override
-                    public void onError(Exception ex) {
-
+                    public void onError(Response httpResponse, Exception ex) {
+                        String errorString = "";
+                        if (httpResponse != null) {
+                            errorString = httpResponse.toString();
+                        } else if (ex != null) {
+                            errorString = ex.getLocalizedMessage();
+                        }
+                        if (weakReferenceMainActivity.get() != null && ! MyApp.getIsAppBackground()) {
+                            Activity myMainActivity = ScreenMap.getCurrentResumedActivity();
+                            if (myMainActivity != null &&
+                                    myMainActivity.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
+                                ((MainActivity)weakReferenceMainActivity.get()).displayQueryError(errorString);
+                            }
+                        }
                     }
                 });
             }

@@ -5,6 +5,8 @@
  */
 package com.davidmlee.kata.moviesearch100.query;
 
+import okhttp3.Response;
+
 /**
  * HttpResponseCallback
  */
@@ -15,7 +17,8 @@ public interface QueryResponseCallback {
     void onSuccess(String responseBodyString);
 
     /**
+     * @param httpResponse - http Response object
      * @param ex The Exception
      */
-    void onError(Exception ex);
+    void onError(Response httpResponse, Exception ex);
 }

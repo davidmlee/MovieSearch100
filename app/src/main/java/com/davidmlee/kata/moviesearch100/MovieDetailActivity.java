@@ -18,7 +18,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         FilmDetailEntity fde = MovieDetailController.getDetail();
         ((TextView)findViewById(R.id.tv_title_field)).setText(fde.getTitle());
         ((TextView)findViewById(R.id.tv_overview_field)).setText(fde.getOverview());
@@ -27,5 +29,4 @@ public class MovieDetailActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.tv_adult_field)).setText(fde.getAdult() ? MyApp.getStrRes(R.string.label_yes) : MyApp.getStrRes(R.string.label_no));
         ((TextView)findViewById(R.id.tv_video_field)).setText(fde.getVideo() ? MyApp.getStrRes(R.string.label_yes) : MyApp.getStrRes(R.string.label_no));
     }
-
 }
