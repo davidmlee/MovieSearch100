@@ -1,6 +1,7 @@
 package com.davidmlee.kata.moviesearch100.util;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -77,10 +78,23 @@ public class Util {
 
     /**
      * @param str
-     * @return
+     * @return true if null or empty
      */
     public static boolean isNullOrEmpty(String str) {
         return str == null || str.isEmpty() || str.equalsIgnoreCase("null");
     }
 
+    /**
+     * @return string of formatted app version
+     */
+    public static String getAppVersionString() {
+        PackageInfo info;
+        try {
+            info = MyApp.getAppContext().getPackageManager().getPackageInfo(MyApp.getAppContext().getPackageName(), 0);
+        } catch (Exception ex) {
+            MyApp.handleException("updateVersionLabel", ex, true);
+            return "";
+        }
+        return String.format("%s (%d)", info.versionName, info.versionCode);
+    }
 }

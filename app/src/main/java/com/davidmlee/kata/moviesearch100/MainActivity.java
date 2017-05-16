@@ -1,9 +1,11 @@
 package com.davidmlee.kata.moviesearch100;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -142,11 +144,22 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle(MyApp.getStrRes(R.string.app_name));
+            alertDialogBuilder
+                    .setMessage(MyApp.getStrRes(R.string.label_version) + "  " + Util.getAppVersionString())
+                    .setCancelable(true)
+                    .setPositiveButton(MyApp.getStrRes(R.string.label_done),
+                            new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

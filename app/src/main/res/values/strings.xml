@@ -18,5 +18,7 @@
     <string name="label_yes">Yes</string>
     <string name="label_no">No</string>
     <string name="label_movie_detail">Movie Detail</string>
+    <string name="label_done">Done</string>
+    <string name="label_version">Version</string>
 
 </resources>
