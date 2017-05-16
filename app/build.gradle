@@ -7,8 +7,8 @@ android {
         applicationId "com.davidmlee.kata.moviesearch100"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 18
-        versionName "1.18"
+        versionCode 20
+        versionName "1.20"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
