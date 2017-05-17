@@ -1,9 +1,10 @@
-package com.davidmlee.kata.moviesearch100;
+package com.davidmlee.kata.moviesearch100.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.davidmlee.kata.moviesearch100.R;
 import com.davidmlee.kata.moviesearch100.controller.MainController;
 import com.davidmlee.kata.moviesearch100.controller.MovieDetailController;
 import com.davidmlee.kata.moviesearch100.core.MyApp;

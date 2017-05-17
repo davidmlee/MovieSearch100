@@ -2,7 +2,7 @@ package com.davidmlee.kata.moviesearch100.controller;
 
 import android.app.Activity;
 
-import com.davidmlee.kata.moviesearch100.MainActivity;
+import com.davidmlee.kata.moviesearch100.view.MainActivity;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
 import com.davidmlee.kata.moviesearch100.core.ScreenMap;
 import com.davidmlee.kata.moviesearch100.models.FilmEntity;

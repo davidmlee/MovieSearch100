@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.davidmlee.kata.moviesearch100;
+package com.davidmlee.kata.moviesearch100.listadapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.davidmlee.kata.moviesearch100.R;
 import com.davidmlee.kata.moviesearch100.controller.MainController;
 import com.davidmlee.kata.moviesearch100.controller.MovieDetailController;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
@@ -30,11 +31,11 @@ import com.davidmlee.kata.moviesearch100.util.Util;
 
 import java.util.List;
 
-class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolder> {
+public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolder> {
 
     private static List<FilmEntity> filmEntityList;
 
-    FilmListAdapter(List<FilmEntity> filmEntityList) {
+    public FilmListAdapter(List<FilmEntity> filmEntityList) {
         FilmListAdapter.filmEntityList = filmEntityList;
     }
 

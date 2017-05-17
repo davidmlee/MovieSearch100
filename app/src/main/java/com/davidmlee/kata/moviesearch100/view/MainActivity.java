@@ -1,4 +1,4 @@
-package com.davidmlee.kata.moviesearch100;
+package com.davidmlee.kata.moviesearch100.view;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -19,9 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.davidmlee.kata.moviesearch100.R;
 import com.davidmlee.kata.moviesearch100.controller.MainController;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
 import com.davidmlee.kata.moviesearch100.core.ScreenMap;
+import com.davidmlee.kata.moviesearch100.listadapter.FilmListAdapter;
 import com.davidmlee.kata.moviesearch100.util.Util;
 
 public class MainActivity extends AppCompatActivity {
