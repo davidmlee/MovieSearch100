@@ -1,7 +1,9 @@
 package com.davidmlee.kata.moviesearch100.controller;
 
 import android.app.Activity;
+import android.widget.Toast;
 
+import com.davidmlee.kata.moviesearch100.R;
 import com.davidmlee.kata.moviesearch100.view.MainActivity;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
 import com.davidmlee.kata.moviesearch100.core.ScreenMap;
@@ -156,6 +158,9 @@ public class MainController {
         int tmp_total_pages = total_pages;
         int tmp_last_fetched_page_num = last_fetched_page_num;
         if (getLastFetchedPageNum() >= getTotalPages()) {
+            if (weakReferenceMainActivity.get() != null) {
+                ((MainActivity)weakReferenceMainActivity.get()).promptUser(MyApp.getStrRes(R.string.label_movie_list_bottom_reached), Toast.LENGTH_SHORT);
+            }
             return;
         }
         // Subsequent search

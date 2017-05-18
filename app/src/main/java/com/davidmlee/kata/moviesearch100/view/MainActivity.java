@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 recList.invalidate();
                 Activity currentlyResumed = ScreenMap.getCurrentResumedActivity();
                 if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
-                    Util.hideSoftKeyboard(MainActivity.this);
+                    Util.hideSoftKeyboard(currentlyResumed);
                     Snackbar.make(recList,
                             MyApp.getStrRes(R.string.label_movie_list_reset)
                             , Snackbar.LENGTH_SHORT)
@@ -107,10 +107,27 @@ public class MainActivity extends AppCompatActivity {
                 recList.invalidate();
                 Activity currentlyResumed = ScreenMap.getCurrentResumedActivity();
                 if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
-                    Util.hideSoftKeyboard(MainActivity.this);
+                    Util.hideSoftKeyboard(currentlyResumed);
                     Snackbar.make(recList,
                             MyApp.getStrRes(R.string.label_movie_list_appended)
                             , Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
+                }
+            }
+        });
+    }
+
+    public void promptUser(final String prompt_str, final int duration) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Activity currentlyResumed = ScreenMap.getCurrentResumedActivity();
+                if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
+                    Util.hideSoftKeyboard(currentlyResumed);
+                    //Toast.makeText(MainActivity.this, prompt_str, Toast.LENGTH_LONG).show();
+                    Snackbar.make(recList,
+                            prompt_str
+                            , duration)
                             .setAction("Action", null).show();
                 }
             }
@@ -123,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Activity currentlyResumed = ScreenMap.getCurrentResumedActivity();
                 if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
-                    Util.hideSoftKeyboard(MainActivity.this);
-                    Toast.makeText(MainActivity.this, errorString, Toast.LENGTH_LONG).show();
+                    Util.hideSoftKeyboard(currentlyResumed);
+                    Toast.makeText(currentlyResumed, errorString, Toast.LENGTH_LONG).show();
                 }
             }
         });

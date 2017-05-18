@@ -88,21 +88,6 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
                     //int view_item_osition = getLayoutPosition();
                     int data_list_position = getAdapterPosition();
                     final String filmId = filmEntityList.get(data_list_position).getId();
-                    /*
-                    Toast.makeText(MyApp.getAppContext(),
-                            "view_item_osition: " + view_item_osition
-                            + "\ndata_list_position: " + data_list_position
-                            + "\nid: " + filmEntityList.get(data_list_position).getId()
-                            + "\ntitle: " + filmEntityList.get(data_list_position).getTitle()
-                            , Toast.LENGTH_SHORT).show();
-                    Snackbar.make(view,
-                            "view_item_osition: " + view_item_osition
-                                    + "\ndata_list_position: " + data_list_position
-                                    + "\nid: " + filmEntityList.get(data_list_position).getId()
-                                    + "\ntitle: " + filmEntityList.get(data_list_position).getTitle()
-                            , Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                            */
                     new Thread() {
                         @Override
                         public void run() {
