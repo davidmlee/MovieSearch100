@@ -1,5 +1,9 @@
 package com.davidmlee.kata.moviesearch100.models;
 
+import com.davidmlee.kata.moviesearch100.util.Util;
+
+import org.json.JSONObject;
+
 /**
  * Created by davidmlee on 5/14/17.
  */
@@ -13,14 +17,26 @@ public class FilmDetailEntity {
     private String status;
     private boolean bVideo;
 
-    public FilmDetailEntity() {
+    private FilmDetailEntity() {
+    }
+
+    public static FilmDetailEntity populateFetchableResource(JSONObject jsonEntry) {
+        FilmDetailEntity fde = new FilmDetailEntity();
+        fde.setId(Util.getString(jsonEntry, "id", ""));
+        fde.setTitle(Util.getString(jsonEntry, "title", ""));
+        fde.setOverview(Util.getString(jsonEntry, "overview", ""));
+        fde.setReleaseDate(Util.getString(jsonEntry, "release_date", ""));
+        fde.setStatus(Util.getString(jsonEntry, "status", ""));
+        fde.setAdult(Util.getBool(jsonEntry, "adult"));
+        fde.setVideo(Util.getBool(jsonEntry, "video"));
+        return fde;
     }
 
     public String getReleaseDate() {
         return releasedate;
     }
 
-    public void setReleaseDate(String d1) {
+    private void setReleaseDate(String d1) {
         releasedate = d1;
     }
 
@@ -28,7 +44,7 @@ public class FilmDetailEntity {
         return bAdult;
     }
 
-    public void setAdult(boolean d1) {
+    private void setAdult(boolean d1) {
         this.bAdult = d1;
     }
 
@@ -36,7 +52,7 @@ public class FilmDetailEntity {
         return bVideo;
     }
 
-    public void setVideo(boolean d1) {
+    private void setVideo(boolean d1) {
         this.bVideo = d1;
     }
 
@@ -44,7 +60,7 @@ public class FilmDetailEntity {
         return status;
     }
 
-    public void setStatus(String d1) {
+    private void setStatus(String d1) {
         this.status = d1;
     }
 
@@ -60,7 +76,7 @@ public class FilmDetailEntity {
         return title;
     }
 
-    public void setTitle(String title) {
+    private void setTitle(String title) {
         this.title = title;
     }
 
@@ -68,7 +84,7 @@ public class FilmDetailEntity {
         return this.overview;
     }
 
-    public void setOverview(String overview) {
+    private void setOverview(String overview) {
         this.overview = overview;
     }
 }

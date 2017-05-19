@@ -10,7 +10,6 @@ import com.davidmlee.kata.moviesearch100.core.ScreenMap;
 import com.davidmlee.kata.moviesearch100.models.FilmDetailEntity;
 import com.davidmlee.kata.moviesearch100.query.QueryResponseCallback;
 import com.davidmlee.kata.moviesearch100.query.SearchMovies;
-import com.davidmlee.kata.moviesearch100.util.Util;
 import okhttp3.Response;
 
 import org.json.JSONObject;
@@ -40,14 +39,7 @@ public class MovieDetailController {
                         JSONObject jsonTop;
                         try {
                             jsonTop = new JSONObject(responseBodyString);
-                            FilmDetailEntity fde = new FilmDetailEntity();
-                            fde.setId(Util.getString(jsonTop, "id", ""));
-                            fde.setTitle(Util.getString(jsonTop, "title", ""));
-                            fde.setOverview(Util.getString(jsonTop, "overview", ""));
-                            fde.setReleaseDate(Util.getString(jsonTop, "release_date", ""));
-                            fde.setStatus(Util.getString(jsonTop, "status", ""));
-                            fde.setAdult(Util.getBool(jsonTop, "adult"));
-                            fde.setVideo(Util.getBool(jsonTop, "video"));
+                            FilmDetailEntity fde = FilmDetailEntity.populateFetchableResource(jsonTop);
                             MovieDetailController.setFilmDetailEntity(fde);
                             if (! MyApp.getIsAppBackground()) {
                                 Intent i = new Intent(MainController.getMainActivity(), MovieDetailActivity.class);

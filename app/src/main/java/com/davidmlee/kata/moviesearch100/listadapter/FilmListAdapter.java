@@ -26,16 +26,16 @@ import com.davidmlee.kata.moviesearch100.R;
 import com.davidmlee.kata.moviesearch100.controller.MainController;
 import com.davidmlee.kata.moviesearch100.controller.MovieDetailController;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
-import com.davidmlee.kata.moviesearch100.models.FilmEntity;
+import com.davidmlee.kata.moviesearch100.models.FilmSummaryEntity;
 import com.davidmlee.kata.moviesearch100.util.Util;
 
 import java.util.List;
 
 public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolder> {
 
-    private static List<FilmEntity> filmEntityList;
+    private static List<FilmSummaryEntity> filmEntityList;
 
-    public FilmListAdapter(List<FilmEntity> filmEntityList) {
+    public FilmListAdapter(List<FilmSummaryEntity> filmEntityList) {
         FilmListAdapter.filmEntityList = filmEntityList;
     }
 
@@ -46,7 +46,7 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
 
     @Override
     public void onBindViewHolder(FilmViewHolder holder, int position) {
-        FilmEntity fe = filmEntityList.get(position);
+        FilmSummaryEntity fe = filmEntityList.get(position);
         holder.id = fe.getId();
         holder.tvTitle.setText(fe.getTitle());
         String releaseDate = fe.getReleaseDate();

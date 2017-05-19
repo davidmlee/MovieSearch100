@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.widget.Toast;
 
 import com.davidmlee.kata.moviesearch100.R;
+import com.davidmlee.kata.moviesearch100.models.SearchResult;
 import com.davidmlee.kata.moviesearch100.view.MainActivity;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
 import com.davidmlee.kata.moviesearch100.core.ScreenMap;
-import com.davidmlee.kata.moviesearch100.models.FilmEntity;
+import com.davidmlee.kata.moviesearch100.models.FilmSummaryEntity;
 import com.davidmlee.kata.moviesearch100.query.QueryResponseCallback;
 import com.davidmlee.kata.moviesearch100.query.SearchMovies;
-import com.davidmlee.kata.moviesearch100.util.Util;
 import okhttp3.Response;
 
 import org.json.JSONArray;
@@ -27,17 +27,12 @@ import java.util.ArrayList;
 
 public class MainController {
     private static WeakReference<Activity> weakReferenceMainActivity = null;
-
-    static private ArrayList<FilmEntity> filmAry = new ArrayList<>(); // List of movies for list adapter
-    static private int total_results = -1;
-    static private int total_pages = -1;
-    static private int last_fetched_page_num = -1;
-    static private String search_text;
-
+    static private SearchResult searchResult = new SearchResult();
+    static private ArrayList<FilmSummaryEntity> filmAry = new ArrayList<>(); // List of movies for list adapter
     /**
      * @return filmAry - List of movies for list adapter
      */
-    static public ArrayList<FilmEntity> getFilmList() {
+    static public ArrayList<FilmSummaryEntity> getFilmList() {
         return filmAry;
     }
 
@@ -51,39 +46,8 @@ public class MainController {
     /**
      * @return mainActivity1 movie list activity
      */
-    static public Activity getMainActivity() {
+    static Activity getMainActivity() {
         return weakReferenceMainActivity.get();
-    }
-
-    static public int getTotalResults() {
-        return MainController.total_results;
-    }
-
-    static public void setTotalResults(int total_results_in) {
-        MainController.total_results = total_results_in;
-    }
-
-    static public int getTotalPages() {
-        return MainController.total_pages;
-    }
-
-    static public void setTotalPages(int total_pages_in) {
-        MainController.total_pages = total_pages_in;
-    }
-
-    static public int getLastFetchedPageNum() {
-        return MainController.last_fetched_page_num;
-    }
-
-    static public void setLastFetchedPageNum(int last_fetched_page_num_in) {
-        MainController.last_fetched_page_num = last_fetched_page_num_in;
-    }
-    static public String getSearchText() {
-        return MainController.search_text;
-    }
-
-    static public void setSearchText(String search_text_in) {
-        MainController.search_text = search_text_in;
     }
     /**
      * @param str_search_text - string to search for the movie list
@@ -91,10 +55,10 @@ public class MainController {
     static public void searchMovies(final String str_search_text) {
         // New search
         MainController.filmAry.clear(); // Clear the data list for a new search
-        MainController.setTotalResults(-1);
-        MainController.setTotalPages(-1);
-        MainController.setLastFetchedPageNum(-1);
-        MainController.setSearchText("");
+        MainController.searchResult.setTotalResults(-1);
+        MainController.searchResult.setTotalPages(-1);
+        MainController.searchResult.setLastFetchedPageNum(-1);
+        MainController.searchResult.setSearchText("");
         new Thread() {
             @Override
             public void run() {
@@ -106,22 +70,15 @@ public class MainController {
                         JSONArray results;
                         try {
                             jsonTop = new JSONObject(responseBodyString);
-                            MainController.setTotalResults(jsonTop.getInt("total_results"));
-                            MainController.setTotalPages(jsonTop.getInt("total_pages"));
-                            MainController.setLastFetchedPageNum(jsonTop.getInt("page"));
-                            MainController.setSearchText(str_search_text);
+                            MainController.searchResult.setTotalResults(jsonTop.getInt("total_results"));
+                            MainController.searchResult.setTotalPages(jsonTop.getInt("total_pages"));
+                            MainController.searchResult.setLastFetchedPageNum(jsonTop.getInt("page"));
+                            MainController.searchResult.setSearchText(str_search_text);
                             results = jsonTop.getJSONArray("results");
                             int numEntries = results.length();
-                            JSONObject jsonEntry;
-                            FilmEntity fe;
+                            FilmSummaryEntity fe;
                             for (int i = 0; i < numEntries; i++) {
-                                jsonEntry = results.getJSONObject(i);
-                                fe = new FilmEntity();
-                                fe.setId(Util.getString(jsonEntry, "id", ""));
-                                fe.setTitle(Util.getString(jsonEntry, "title", ""));
-                                fe.setOverview(Util.getString(jsonEntry, "overview", ""));
-                                fe.setPosterPath(Util.getString(jsonEntry, "poster_path", ""));
-                                fe.setReleaseDate(Util.getString(jsonEntry, "release_date", ""));
+                                fe = FilmSummaryEntity.populateFetchableResource(results.getJSONObject(i));
                                 MainController.filmAry.add(fe);
                             } // for
                             if (weakReferenceMainActivity.get() != null) {
@@ -155,9 +112,9 @@ public class MainController {
     /**
      */
     static public void searchMoviesNextPage() {
-        int tmp_total_pages = total_pages;
-        int tmp_last_fetched_page_num = last_fetched_page_num;
-        if (getLastFetchedPageNum() >= getTotalPages()) {
+        int tmp_total_pages = searchResult.getTotalPages();
+        int tmp_last_fetched_page_num = searchResult.getLastFetchedPageNum();
+        if (searchResult.getLastFetchedPageNum() >= searchResult.getTotalPages()) {
             if (weakReferenceMainActivity.get() != null) {
                 ((MainActivity)weakReferenceMainActivity.get()).promptUser(MyApp.getStrRes(R.string.label_movie_list_bottom_reached), Toast.LENGTH_SHORT);
             }
@@ -168,27 +125,20 @@ public class MainController {
             @Override
             public void run() {
                 super.run();
-                String pageNumStr = String.valueOf(MainController.getLastFetchedPageNum() + 1);
-                SearchMovies.sendSearchByPage(MainController.getSearchText(), pageNumStr, new QueryResponseCallback() {
+                String pageNumStr = String.valueOf(MainController.searchResult.getLastFetchedPageNum() + 1);
+                SearchMovies.sendSearchByPage(MainController.searchResult.getSearchText(), pageNumStr, new QueryResponseCallback() {
                     @Override
                     public void onSuccess(String responseBodyString) {
                         JSONObject jsonTop;
                         JSONArray results;
                         try {
                             jsonTop = new JSONObject(responseBodyString);
-                            MainController.setLastFetchedPageNum(jsonTop.getInt("page"));
+                            MainController.searchResult.setLastFetchedPageNum(jsonTop.getInt("page"));
                             results = jsonTop.getJSONArray("results");
                             int numEntries = results.length();
-                            JSONObject jsonEntry;
-                            FilmEntity fe;
+                            FilmSummaryEntity fe;
                             for (int i = 0; i < numEntries; i++) {
-                                jsonEntry = results.getJSONObject(i);
-                                fe = new FilmEntity();
-                                fe.setId(Util.getString(jsonEntry, "id", ""));
-                                fe.setTitle(Util.getString(jsonEntry, "title", ""));
-                                fe.setOverview(Util.getString(jsonEntry, "overview", ""));
-                                fe.setPosterPath(Util.getString(jsonEntry, "poster_path", ""));
-                                fe.setReleaseDate(Util.getString(jsonEntry, "release_date", ""));
+                                fe = FilmSummaryEntity.populateFetchableResource(results.getJSONObject(i));
                                 MainController.filmAry.add(fe);
                             } // for
                             if (weakReferenceMainActivity.get() != null) {
