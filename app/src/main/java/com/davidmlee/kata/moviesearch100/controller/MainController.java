@@ -24,7 +24,6 @@ import java.util.ArrayList;
  *
  * Created by davidmlee on 5/13/17.
  */
-
 public class MainController {
     private static WeakReference<Activity> weakReferenceMainActivity = null;
     static private SearchResult searchResult = new SearchResult();

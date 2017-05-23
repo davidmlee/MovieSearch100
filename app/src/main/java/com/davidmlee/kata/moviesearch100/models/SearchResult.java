@@ -3,7 +3,6 @@ package com.davidmlee.kata.moviesearch100.models;
 /**
  * Created by davidmlee on 5/18/17.
  */
-
 public class SearchResult {
 
     private int total_results = -1; // Keep for debug

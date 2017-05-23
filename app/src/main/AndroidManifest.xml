@@ -28,6 +28,8 @@
         </activity>
         <activity
             android:name=".view.MovieDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             >
         </activity>
     </application>

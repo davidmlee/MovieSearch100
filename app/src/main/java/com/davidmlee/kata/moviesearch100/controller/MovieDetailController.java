@@ -20,7 +20,7 @@ import org.json.JSONObject;
  */
 
 public class MovieDetailController {
-    static FilmDetailEntity filmDetailEntity;
+    static private FilmDetailEntity filmDetailEntity;
 
     static public FilmDetailEntity getDetail() {
         return MovieDetailController.filmDetailEntity;

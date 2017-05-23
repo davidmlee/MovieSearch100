@@ -5,7 +5,7 @@ import com.davidmlee.kata.moviesearch100.util.Util;
 import org.json.JSONObject;
 
 /**
- * film class
+ * FilmSummaryEntity
  */
 public class FilmSummaryEntity {
 

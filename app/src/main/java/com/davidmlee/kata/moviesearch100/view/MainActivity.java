@@ -26,6 +26,9 @@ import com.davidmlee.kata.moviesearch100.core.ScreenMap;
 import com.davidmlee.kata.moviesearch100.listadapter.FilmListAdapter;
 import com.davidmlee.kata.moviesearch100.util.Util;
 
+/**
+ * MainActivity of the app
+ */
 public class MainActivity extends AppCompatActivity {
     private EditText search_text;
     RecyclerView recList;

@@ -82,8 +82,6 @@ public class MyApp extends Application {
      * @param TAG an id for logging
      * @param ex Exception
      * @param throwIfDebug True to throw during DEBUG
-     *
-     * @return string from the string file
      */
     public static void handleException(String TAG, Throwable ex,
                                        boolean throwIfDebug) {
