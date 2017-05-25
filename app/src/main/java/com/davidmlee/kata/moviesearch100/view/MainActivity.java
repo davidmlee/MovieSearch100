@@ -95,8 +95,15 @@ public class MainActivity extends AppCompatActivity {
                 Activity currentlyResumed = ScreenMap.getCurrentResumedActivity();
                 if (currentlyResumed != null && currentlyResumed.getLocalClassName().contains(MainActivity.class.getSimpleName())) {
                     Util.hideSoftKeyboard(currentlyResumed);
+                    recList.scrollToPosition(0);
+                    String strToDisplay;
+                    if (filmListAdapter.getItemCount() == 0) {
+                        strToDisplay = MyApp.getStrRes(R.string.label_movie_not_found);
+                    } else {
+                        strToDisplay = MyApp.getStrRes(R.string.label_movie_list_reset);
+                    }
                     Snackbar.make(recList,
-                            MyApp.getStrRes(R.string.label_movie_list_reset)
+                            strToDisplay
                             , Snackbar.LENGTH_SHORT)
                             .setAction("Action", null).show();
                 }
