@@ -30,6 +30,8 @@ import com.davidmlee.kata.moviesearch100.util.Util;
  * MainActivity of the app
  */
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private EditText search_text;
     RecyclerView recList;
     FilmListAdapter filmListAdapter;
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
-        filmListAdapter = new FilmListAdapter(MainController.getFilmList());
+        filmListAdapter = new FilmListAdapter(MainActivity.this, MainController.getFilmList());
         recList.setAdapter(filmListAdapter);
     }
 

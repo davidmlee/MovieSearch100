@@ -20,6 +20,8 @@ import com.davidmlee.kata.moviesearch100.util.Util;
  * MainActivity of the app
  */
 public class MovieDetailActivity extends AppCompatActivity {
+    private static final String TAG = MovieDetailActivity.class.getSimpleName();
+
     @Override
     @SuppressWarnings({"deprecation", "NewApi"})
     protected void onCreate(Bundle savedInstanceState) {

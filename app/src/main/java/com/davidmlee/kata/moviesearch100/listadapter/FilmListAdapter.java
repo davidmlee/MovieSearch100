@@ -16,10 +16,12 @@
  */
 package com.davidmlee.kata.moviesearch100.listadapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.davidmlee.kata.moviesearch100.R;
@@ -27,15 +29,21 @@ import com.davidmlee.kata.moviesearch100.controller.MainController;
 import com.davidmlee.kata.moviesearch100.controller.MovieDetailController;
 import com.davidmlee.kata.moviesearch100.core.MyApp;
 import com.davidmlee.kata.moviesearch100.models.FilmSummaryEntity;
+import com.davidmlee.kata.moviesearch100.util.RoundedTransformation;
 import com.davidmlee.kata.moviesearch100.util.Util;
 
 import java.util.List;
 
+import com.squareup.picasso.Picasso;
+
+
 public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolder> {
 
+    private Context myActivityContext;
     private static List<FilmSummaryEntity> filmEntityList;
 
-    public FilmListAdapter(List<FilmSummaryEntity> filmEntityList) {
+    public FilmListAdapter(Context activityContext, List<FilmSummaryEntity> filmEntityList) {
+        myActivityContext = activityContext;
         FilmListAdapter.filmEntityList = filmEntityList;
     }
 
@@ -60,6 +68,11 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
         if (position == filmEntityList.size() - 1) {
             MainController.searchMoviesNextPage();
         }
+        Picasso.with(myActivityContext)
+                .load("https://image.tmdb.org/t/p/w185" + fe.getPosterPath())
+                .transform(new RoundedTransformation(20, 2))
+                .error(R.drawable.poster_not_found)
+                .into(holder.ivPoster);
     }
 
     @Override
@@ -72,12 +85,14 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
 
     static class FilmViewHolder extends RecyclerView.ViewHolder {
         protected String id;
+        ImageView ivPoster;
         TextView tvTitle;
         TextView tvOverview;
         TextView tvDate;
 
         FilmViewHolder(View itemView) {
             super(itemView);
+            this.ivPoster =  (ImageView)itemView.findViewById(R.id.poster_image);
             this.tvTitle =  (TextView)itemView.findViewById(R.id.tv_title);
             this.tvDate = (TextView)itemView.findViewById(R.id.tv_date);
             this.tvOverview = (TextView)itemView.findViewById(R.id.tv_overview);
