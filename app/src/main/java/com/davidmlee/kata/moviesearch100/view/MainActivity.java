@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 final String str_search_text = search_text.getEditableText().toString();
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    clearMovieList();
                     search_text.clearFocus();
                     MainController.searchMovies(str_search_text);
                     return true;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 if (str_search_text.length() == 0) {
                     Toast.makeText(MainActivity.this, R.string.label_search_text_empty, Toast.LENGTH_LONG).show();
                 } else {
+                    clearMovieList();
                     search_text.clearFocus();
                     MainController.searchMovies(str_search_text);
                 }
@@ -97,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
         MainController.setMainActivity(null);
     }
 
+    public void clearMovieList() {
+        MainController.getFilmList().clear(); // Clear the data list for a new search
+        filmListAdapter.notifyDataSetChanged();
+        recList.invalidate();
+    }
+
     public void resetMovieList() {
         this.runOnUiThread(new Runnable() {
             @Override
@@ -115,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Snackbar.make(recList,
                             strToDisplay
-                            , Snackbar.LENGTH_SHORT)
+                            , Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             }
