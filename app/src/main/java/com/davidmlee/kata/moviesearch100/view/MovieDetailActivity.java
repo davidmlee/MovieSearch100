@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.davidmlee.kata.moviesearch100.R;
@@ -22,6 +25,8 @@ import com.davidmlee.kata.moviesearch100.util.Util;
 public class MovieDetailActivity extends AppCompatActivity {
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
+    private ScrollView detailScrollView;
+
     @Override
     @SuppressWarnings({"deprecation", "NewApi"})
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         setSupportActionBar(toolbar);
 
+        detailScrollView = (ScrollView)findViewById(R.id.detail_scrollview);
         FilmDetailEntity fde = MovieDetailController.getDetail();
         ((TextView)findViewById(R.id.tv_title_field)).setText(fde.getTitle());
         ((TextView)findViewById(R.id.tv_overview_field)).setText(fde.getOverview());
@@ -44,6 +50,26 @@ public class MovieDetailActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.tv_video_field)).setText(fde.getVideo() ? MyApp.getStrRes(R.string.label_yes) : MyApp.getStrRes(R.string.label_no));
     }
 
+
+    @Override
+    public void onWindowFocusChanged (boolean hasFocus) {
+        if (hasFocus) {
+            // set height of the RecyclerView - begin
+            // WRAP_CONTENT causes a RecyclerView not to display the last item.
+            // The work-around is to set the height of a RecyclerView programmatically
+            DisplayMetrics dm = new DisplayMetrics();
+            this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+            int[] loc = new int[2];
+            detailScrollView.getLocationOnScreen(loc); // get the location
+            int distance_to_bottom = dm.heightPixels - loc[1];
+
+            ViewGroup.LayoutParams params = detailScrollView.getLayoutParams();
+            params.height = distance_to_bottom; // the ScrollView to extend to the bottom of the screen
+            detailScrollView.requestLayout();
+            // set height of the ScrollView - end
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
