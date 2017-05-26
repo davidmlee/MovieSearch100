@@ -11,12 +11,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davidmlee.kata.moviesearch100.R;
@@ -51,6 +54,19 @@ public class MainActivity extends AppCompatActivity {
         MainController.setMainActivity(this);
 
         search_text = (EditText)findViewById(R.id.search_text);
+        // Handle the search key on the keyboard
+        search_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                final String str_search_text = search_text.getEditableText().toString();
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    search_text.clearFocus();
+                    MainController.searchMovies(str_search_text);
+                    return true;
+                }
+                return false;
+            }
+        });
         Button submit_button = (Button) findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,13 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 if (str_search_text.length() == 0) {
                     Toast.makeText(MainActivity.this, R.string.label_search_text_empty, Toast.LENGTH_LONG).show();
                 } else {
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            super.run();
-                            MainController.searchMovies(str_search_text);
-                        }
-                    }.start();
+                    search_text.clearFocus();
+                    MainController.searchMovies(str_search_text);
                 }
             }
         });
