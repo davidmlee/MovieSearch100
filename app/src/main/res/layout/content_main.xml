@@ -48,12 +48,20 @@
             />
     </android.support.constraint.ConstraintLayout>
     <View
-        android:id="@+id/divider_before_cardlist2"
+        android:id="@+id/divider_before_cardlist4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         app:layout_constraintTop_toBottomOf="@+id/page_header"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:background="#000000"
+        android:background="@android:color/white"
+        />
+    <View
+        android:id="@+id/divider_before_cardlist2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/divider_before_cardlist4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@android:color/darker_gray"
         />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cardList"
