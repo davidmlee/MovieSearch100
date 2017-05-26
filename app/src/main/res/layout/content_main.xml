@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:background="@drawable/popcorn_time_3b"
+        android:background="@drawable/header_background_05"
         >
         <EditText
             android:id="@+id/search_text"
